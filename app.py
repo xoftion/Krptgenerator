@@ -613,7 +613,7 @@ def keep_alive_ping():
 
 # Start the keep-alive thread only in production (not in debug mode)
 if not app.debug and os.environ.get("WERKZEUG_RUN_MAIN") != "true":
-    threading.Thread(target=keep_alive_ping, daemon=True).start(
+    threading.Thread(target=keep_alive_ping, daemon=True).start()
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
