@@ -16,6 +16,9 @@ import base64
 import uuid
 import json
 from werkzeug.middleware.proxy_fix import ProxyFix
+import threading
+import requests
+import time
 
 # Configure logging for production
 logging.basicConfig(
@@ -598,6 +601,19 @@ def not_found(error):
 def internal_error(error):
     logger.error(f"Internal server error: {str(error)}")
     return jsonify({'error': 'Internal server error'}), 500
+    
+def keep_alive_ping():
+    while True:
+        try:
+            requests.get("https://krptgenerator.onrender.com/health")
+            logger.info("Keep-alive ping sent")
+        except Exception as e:
+            logger.error(f"Keep-alive ping failed: {str(e)}")
+        time.sleep(300)  # Ping every 5 minutes (300 seconds)
+
+# Start the keep-alive thread only in production (not in debug mode)
+if not app.debug and os.environ.get("WERKZEUG_RUN_MAIN") != "true":
+    threading.Thread(target=keep_alive_ping, daemon=True).start(
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
