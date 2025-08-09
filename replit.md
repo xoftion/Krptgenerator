@@ -1,6 +1,6 @@
 # Overview
 
-This is a cryptographic key generator web application built with Flask that provides a secure interface for generating various types of encryption keys. The application supports multiple key types including Fernet, AES, and RSA keys with different formats and sizes. It features a dark-themed Bootstrap UI with real-time key generation, clipboard functionality, and local history management for generated keys.
+This is a production-ready, advanced cryptographic key generator web application built with Flask. The application provides a comprehensive interface for generating multiple types of encryption keys with extensive format support, security validation, and enterprise-grade features. It supports symmetric encryption (Fernet, AES), asymmetric encryption (RSA, Ed25519, ECDSA), key derivation functions (PBKDF2, Scrypt, HKDF), and message authentication codes (HMAC). The application features a professional dark-themed Bootstrap UI, real-time key validation, security analysis, clipboard functionality, and comprehensive history management.
 
 # User Preferences
 
@@ -23,13 +23,19 @@ Preferred communication style: Simple, everyday language.
 - **Logging**: Python logging module with debug-level configuration
 
 ## Security Architecture
-- **Key Generation**: Multiple cryptographic libraries (cryptography package)
+- **Key Generation**: Advanced cryptographic libraries (cryptography package v41+)
 - **Supported Algorithms**: 
-  - Fernet (symmetric encryption with AES-128 CBC + HMAC-SHA256)
-  - AES (128/192/256-bit keys)
-  - RSA (asymmetric key pairs)
-- **Key Formats**: Base64, hexadecimal, and raw binary encoding options
-- **Session Security**: Environment-based secret key configuration
+  - **Symmetric**: Fernet (AES-128 CBC + HMAC-SHA256), AES (128/192/256-bit)
+  - **Asymmetric**: RSA (2048/3072/4096-bit), Ed25519, ECDSA (P-256/384/521)
+  - **Key Derivation**: PBKDF2 (100k iterations), Scrypt (N=16384), HKDF
+  - **Message Authentication**: HMAC keys, secure random bytes
+- **Key Formats**: Base64, Base64URL (JWT), Hexadecimal, PEM, DER, Raw binary
+- **Security Features**: 
+  - Key strength validation and security recommendations
+  - Comprehensive security headers (HSTS, CSP, XSS protection)
+  - Input validation and sanitization
+  - Audit logging for security events
+- **Session Security**: Environment-based secret key with automatic generation
 
 ## Data Flow
 - **Client-Side**: Form submission triggers AJAX requests to backend

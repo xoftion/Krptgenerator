@@ -67,10 +67,26 @@
                             <div class="mb-3">
                                 <label for="keyType" class="form-label">Key Type</label>
                                 <select class="form-select" id="keyType" required>
-                                    <option value="fernet">Fernet (Symmetric)</option>
-                                    <option value="aes">AES (Symmetric)</option>
-                                    <option value="rsa">RSA (Asymmetric)</option>
-                                    <option value="random">Random Bytes</option>
+                                    <optgroup label="Symmetric Encryption">
+                                        <option value="fernet">Fernet (AES-128 + HMAC)</option>
+                                        <option value="aes">AES (Advanced Encryption Standard)</option>
+                                    </optgroup>
+                                    <optgroup label="Asymmetric Encryption">
+                                        <option value="rsa">RSA (Rivest-Shamir-Adleman)</option>
+                                        <option value="ed25519">Ed25519 (Modern Signature)</option>
+                                        <option value="ecdsa">ECDSA (Elliptic Curve DSA)</option>
+                                    </optgroup>
+                                    <optgroup label="Key Derivation">
+                                        <option value="pbkdf2">PBKDF2 (Password-Based)</option>
+                                        <option value="scrypt">Scrypt (Memory-Hard)</option>
+                                        <option value="hkdf">HKDF (HMAC-Based)</option>
+                                    </optgroup>
+                                    <optgroup label="Message Authentication">
+                                        <option value="hmac">HMAC (Hash-Based MAC)</option>
+                                    </optgroup>
+                                    <optgroup label="Utilities">
+                                        <option value="random">Random Bytes</option>
+                                    </optgroup>
                                 </select>
                             </div>
 
@@ -86,16 +102,36 @@
                             <div class="mb-3" id="keyFormatGroup">
                                 <label for="keyFormat" class="form-label">Output Format</label>
                                 <select class="form-select" id="keyFormat">
-                                    <option value="base64">Base64</option>
+                                    <option value="base64">Base64 (Standard)</option>
                                     <option value="hex">Hexadecimal</option>
                                     <option value="raw">Raw Bytes</option>
+                                    <option value="pem">PEM Format</option>
+                                    <option value="der">DER Format</option>
+                                    <option value="jwt">JWT Base64URL</option>
                                 </select>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-key me-2"></i>
-                                Generate Key
-                            </button>
+                            <div class="mb-3" id="passwordGroup" style="display: none;">
+                                <label for="password" class="form-label">Password (for derivation)</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" placeholder="Enter password for key derivation">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text">Required for PBKDF2 and Scrypt key derivation</div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-key me-2"></i>
+                                    Generate Key
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="validateKeyBtn">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Validate Existing Key
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

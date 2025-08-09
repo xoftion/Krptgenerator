@@ -1,0 +1,21 @@
+# Render.com deployment configuration
+services:
+  - type: web
+    name: crypto-key-generator
+    env: python
+    buildCommand: "uv pip install --system -r pyproject.toml"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT --workers 4 --timeout 120 main:app"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+    healthCheckPath: /health
+    numInstances: 1
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+      targetMemoryUtilization: 70
+      targetCPUUtilization: 70
