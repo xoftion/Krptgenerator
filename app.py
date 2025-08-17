@@ -605,7 +605,7 @@ def internal_error(error):
 def keep_alive_ping():
     while True:
         try:
-            requests.get("https://krptgenerator.onrender.com/health")
+            requests.get("https://krptgenerator-lq3g.onrender.com/health")
             logger.info("Keep-alive ping sent")
         except Exception as e:
             logger.error(f"Keep-alive ping failed: {str(e)}")
