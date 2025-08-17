@@ -24,7 +24,6 @@ class KeyGenerator {
         this.keyInfo = document.getElementById('keyInfo');
         this.clearOutputBtn = document.getElementById('clearOutputBtn');
         this.clearHistoryBtn = document.getElementById('clearHistoryBtn');
-        this.copyToast = new bootstrap.Toast(document.getElementById('copyToast'));
     }
 
     bindEvents() {
@@ -69,13 +68,22 @@ class KeyGenerator {
         const keyTypeConfig = this.keyTypes[keyType];
         
         if (keyTypeConfig) {
-            // Update key size options
+            // Update key size options (FIXED HERE: Handle single fixed size by setting a hidden selected option)
             this.keySizeSelect.innerHTML = '';
-            if (keyTypeConfig.sizes.length > 1) {
-                keySizeGroup.style.display = 'block';
-                keyTypeConfig.sizes.forEach(size => {
-                    this.keySizeSelect.innerHTML += `<option value="${size}">${size}</option>`;
-                });
+            if (keyTypeConfig.sizes && keyTypeConfig.sizes.length > 0) {
+                if (keyTypeConfig.sizes.length > 1) {
+                    keySizeGroup.style.display = 'block';
+                    keyTypeConfig.sizes.forEach(size => {
+                        this.keySizeSelect.innerHTML += `<option value="${size}">${size}</option>`;
+                    });
+                    // Optionally select a default (e.g., the largest)
+                    this.keySizeSelect.value = keyTypeConfig.sizes[keyTypeConfig.sizes.length - 1];
+                } else {
+                    // Single fixed size: set hidden selected option to ensure value is sent
+                    const size = keyTypeConfig.sizes[0];
+                    this.keySizeSelect.innerHTML = `<option value="${size}" selected>${size}</option>`;
+                    keySizeGroup.style.display = 'none';
+                }
             } else {
                 keySizeGroup.style.display = 'none';
             }
