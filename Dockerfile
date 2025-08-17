@@ -30,7 +30,7 @@ EXPOSE 5000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('https://krptgenerator.onrender.com/health')"
+    CMD python -c "import requests; requests.get('https://krptgenerator-lq3g.onrender.com/health')"
 
 # Start application
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "--timeout", "120", "main:app"]
